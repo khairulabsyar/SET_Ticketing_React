@@ -17,26 +17,6 @@ function AuthProvider({ children }) {
     setUser(null);
     setRole(null);
     setId(null);
-    setGetDevList(null);
-  };
-
-  const signin = async (luser) => {
-    const { data } = await apiSignIn(luser);
-    if (data.message === "Success Login" && data.data.token) {
-      setToken(data?.data?.token);
-      setUser(data?.data?.firstName);
-      setRole(data?.data?.role);
-      setId(data?.data?.id);
-      alert("Successfully Login");
-      if (data?.data?.role === "Client") {
-        navigate("/create-tix");
-      } else {
-        navigate("/home");
-      }
-    } else {
-      alert(data.message);
-      navigate(`/home`);
-    }
   };
 
   const getDeveloper = async () => {
@@ -47,9 +27,29 @@ function AuthProvider({ children }) {
     setGetDevList(data);
   };
 
-  useEffect(() => {
-    getDeveloper();
-  }, [token]);
+  const signin = async (luser) => {
+    const { data } = await apiSignIn(luser);
+    if (data.message === "Success Login" && data.data.token) {
+      setToken(data?.data?.token);
+      setUser(data?.data?.firstName);
+      setRole(data?.data?.role);
+      setId(data?.data?.id);
+      getDeveloper();
+      alert("Successfully Login");
+      if (data?.data?.role === "Client") {
+        navigate("/create-tix");
+      } else {
+        navigate("/show-tix");
+      }
+    } else {
+      alert(data.message);
+      navigate(`/home`);
+    }
+  };
+
+  // useEffect(() => {
+  //   getDeveloper();
+  // }, [token]);
 
   const createTicket = async (ticket) => {
     const config = {

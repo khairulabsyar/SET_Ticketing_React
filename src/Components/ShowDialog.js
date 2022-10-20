@@ -2,7 +2,6 @@ import { Box, Button, FormControl, MenuItem, Select } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import { UseAuth, UseDialog } from "../Hooks";
 import { Status } from ".";
-import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -25,7 +24,7 @@ const CustomizedSelectForFormik = ({ children, form, field }) => {
 };
 
 function ShowDialog({ ticket }) {
-  const { editTicket, getTickets, token } = UseAuth();
+  const { editTicket, token } = UseAuth();
   const { role, getDevList } = UseAuth();
   const { closeTixDetails } = UseDialog();
 

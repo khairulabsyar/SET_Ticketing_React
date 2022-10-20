@@ -7,9 +7,7 @@ function NavbarComponent(props) {
 
   return (
     <>
-      {props.name === "Show Tickets" ||
-      props.name === "Create Ticket" ||
-      props.name === "Update Ticket" ? (
+      {props.name === "Show Tickets" || props.name === "Create Ticket" ? (
         token ? (
           <NavLink to={`/${props.url}`} style={props.style}>
             {props.name}

@@ -146,7 +146,7 @@ const Register = () => {
           error={formik.touched.role && Boolean(formik.errors.role)}
           helperText={formik.touched.role && formik.errors.role}
         />
-        <Button color='primary' variant='contained' fullWidth type='submit'>
+        <Button color='primary' variant='contained' type='submit'>
           Submit
         </Button>
       </form>

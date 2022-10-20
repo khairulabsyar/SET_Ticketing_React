@@ -6,7 +6,7 @@ import { ShowDialog } from "../Components";
 import { UseAuth, UseDialog } from "../Hooks";
 
 const ShowTix = () => {
-  const { token, delTick, role } = UseAuth();
+  const { token, deleteTicket, role, getTickets } = UseAuth();
   const [ticket, setTicket] = useState([]);
   const { tixOpen, showTixDetails, closeTixDetails } = UseDialog();
 
@@ -24,7 +24,7 @@ const ShowTix = () => {
     {
       enabled: true,
       onSuccess: (res) => {
-        // console.log("Successfull", res);
+        console.log("Successfull", res);
       },
       onError: (res) => {
         console.log("Error", res);
@@ -32,14 +32,15 @@ const ShowTix = () => {
     }
   );
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    return <div>Error! {error.message}</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
+  // if (isError) {
+  //   return <div>Error! {error.message}</div>;
+  // }
 
   const Tickets = data?.data?.data;
+  console.log(Tickets.length);
 
   const handleClientOptionOn = (ticket) => {
     setTicket(ticket);
@@ -55,8 +56,8 @@ const ShowTix = () => {
   };
 
   const handleDelete = (tixId) => {
-    delTick(tixId);
-    refetch();
+    deleteTicket(tixId);
+    handleFetch();
   };
 
   return (
@@ -75,76 +76,76 @@ const ShowTix = () => {
           }}
         >
           <h1>In Progress & Backlog Ticket</h1>
-          {Tickets.map((ticket) =>
-            ticket.status !== "Complete" ? (
-              <Paper
-                elevation={4}
-                style={{
-                  width: "90%",
-                  fontSize: "50%",
-                  padding: "1%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  margin: 2,
-                }}
-              >
-                {/* Left Side */}
-                <div
-                  style={{
-                    display: "flex",
-                    width: "90%",
-                    justifyContent: "space-evenly",
-                    alignItems: "center",
-                  }}
-                >
-                  <Box sx={{ width: "20%" }}>
-                    <h1>
-                      #{ticket.id}: {ticket.title}
-                    </h1>
-                  </Box>
-                  <Box sx={{ width: "30%" }}>
-                    <h1>Description: {ticket.description}</h1>
-                  </Box>
-                  <Box sx={{ width: "25%" }}>
-                    <h1>Created By: {ticket.username}</h1>
-                  </Box>
-                  <Box sx={{ width: "25%" }}>
-                    <h1>
-                      Assign to:{" "}
-                      {ticket.developer ? ticket.developer : "Unassigned"}
-                    </h1>
-                  </Box>
-                </div>
-                {/* Right Side */}
-                <div
-                  style={{
-                    display: "flex",
-                    width: "10%",
-                    justifyContent: "space-evenly",
-                    alignItems: "center",
-                    gap: 5,
-                  }}
-                >
-                  {role?.includes("Client") || role?.includes("Admin") ? (
-                    <Button
-                      onClick={() => handleDelete(ticket.id)}
-                      variant='contained'
-                      color='error'
-                    >
-                      Delete
-                    </Button>
-                  ) : null}
-                  <Button
-                    onClick={() => handleClientOptionOn(ticket)}
-                    variant='contained'
+          {Tickets.length > 0
+            ? Tickets?.map((ticket) =>
+                ticket.status !== "Complete" ? (
+                  <Paper
+                    elevation={4}
+                    style={{
+                      width: "90%",
+                      fontSize: "50%",
+                      padding: "1%",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      margin: 2,
+                    }}
                   >
-                    More
-                  </Button>
-                </div>
-              </Paper>
-            ) : null
-          )}
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "90%",
+                        justifyContent: "space-evenly",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box sx={{ width: "20%" }}>
+                        <h1>
+                          #{ticket.id}: {ticket.title}
+                        </h1>
+                      </Box>
+                      <Box sx={{ width: "30%" }}>
+                        <h1>Description: {ticket.description}</h1>
+                      </Box>
+                      <Box sx={{ width: "25%" }}>
+                        <h1>Created By: {ticket.username}</h1>
+                      </Box>
+                      <Box sx={{ width: "25%" }}>
+                        <h1>
+                          Assign to:{" "}
+                          {ticket.developer ? ticket.developer : "Unassigned"}
+                        </h1>
+                      </Box>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "10%",
+                        justifyContent: "space-evenly",
+                        alignItems: "center",
+                        gap: 5,
+                      }}
+                    >
+                      {role?.includes("Client") || role?.includes("Admin") ? (
+                        <Button
+                          onClick={() => handleDelete(ticket.id)}
+                          variant='contained'
+                          color='error'
+                        >
+                          Delete
+                        </Button>
+                      ) : null}
+                      <Button
+                        onClick={() => handleClientOptionOn(ticket)}
+                        variant='contained'
+                      >
+                        More
+                      </Button>
+                    </div>
+                  </Paper>
+                ) : null
+              )
+            : null}
         </Box>
 
         {/* Completed*/}
@@ -160,50 +161,51 @@ const ShowTix = () => {
           }}
         >
           <h1>Completed Tickets</h1>
-          {Tickets.map((ticket) =>
-            ticket.status === "Complete" ? (
-              <Paper
-                elevation={4}
-                style={{
-                  width: "90%",
-                  fontSize: "50%",
-                  padding: "1%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  margin: 2,
-                }}
-              >
-                {/* Left Side */}
-                <div
-                  style={{
-                    display: "flex",
-                    width: "90%",
-                    justifyContent: "space-evenly",
-                    alignItems: "center",
-                  }}
-                >
-                  <Box sx={{ width: "20%" }}>
-                    <h1>
-                      #{ticket.id}: {ticket.title}
-                    </h1>
-                  </Box>
-                  <Box sx={{ width: "30%" }}>
-                    <h1>Description: {ticket.description}</h1>
-                  </Box>
-                  <Box sx={{ width: "25%" }}>
-                    <h1>Created By: {ticket.username}</h1>
-                  </Box>
-                  <Box sx={{ width: "25%" }}>
-                    <h1>
-                      Assign to:{" "}
-                      {ticket.developer ? ticket.developer : "Unassigned"}
-                    </h1>
-                  </Box>
-                </div>
-              </Paper>
-            ) : null
-          )}
+          {Tickets.length > 0
+            ? Tickets.map((ticket) =>
+                ticket.status === "Complete" ? (
+                  <Paper
+                    elevation={4}
+                    style={{
+                      width: "90%",
+                      fontSize: "50%",
+                      padding: "1%",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      margin: 2,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "90%",
+                        justifyContent: "space-evenly",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box sx={{ width: "20%" }}>
+                        <h1>
+                          #{ticket.id}: {ticket.title}
+                        </h1>
+                      </Box>
+                      <Box sx={{ width: "30%" }}>
+                        <h1>Description: {ticket.description}</h1>
+                      </Box>
+                      <Box sx={{ width: "25%" }}>
+                        <h1>Created By: {ticket.username}</h1>
+                      </Box>
+                      <Box sx={{ width: "25%" }}>
+                        <h1>
+                          Assign to:{" "}
+                          {ticket.developer ? ticket.developer : "Unassigned"}
+                        </h1>
+                      </Box>
+                    </div>
+                  </Paper>
+                ) : null
+              )
+            : null}
         </Box>
       </Box>
 

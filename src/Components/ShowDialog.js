@@ -28,7 +28,6 @@ function ShowDialog({ ticket }) {
   const { editTicket, getTickets, token } = UseAuth();
   const { role, getDevList } = UseAuth();
   const { closeTixDetails } = UseDialog();
-  const navigate = useNavigate(null);
 
   const config = {
     headers: { Authorization: `Bearer ${token}` },
@@ -38,10 +37,10 @@ function ShowDialog({ ticket }) {
     return axios.get("http://127.0.0.1:8000/api/ticket", config);
   };
 
-  const { refetch } = useQuery(["tickets"], getTickets, {
+  const { refetch } = useQuery(["tickets"], fetchTicket, {
     enabled: true,
     onSuccess: (res) => {
-      // console.log("Successfull", res);
+      console.log("Successfull", res);
     },
     onError: (res) => {
       console.log("Error", res);

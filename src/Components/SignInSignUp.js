@@ -1,16 +1,19 @@
 import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
-import { Button, TextField, Box } from "@mui/material";
+import { Button, TextField, Box, useTheme } from "@mui/material";
 import * as yup from "yup";
 import { CSSTransition } from "react-transition-group";
 import UseAuth from "../Hooks/UseAuth";
 import UseDialog from "../Hooks/UseDialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiSignUp } from "../Api/users";
+import { useNavigate } from "react-router-dom";
 
 function SignInSignUp() {
   const { signin } = UseAuth();
   const { closeDialog } = UseDialog();
+  const theme = useTheme();
+  const navigate = useNavigate(null);
   const ref = useRef(null);
   const [signUpIsVisible, setSignUpIsVisible] = useState(true);
   const [signInIsVisible, setSignInIsVisible] = useState(false);
@@ -273,9 +276,8 @@ function SignInSignUp() {
               justifyContent: "center",
               width: "100%",
               overflow: "visible",
-              border: 1,
               borderRadius: 5,
-              backgroundColor: "white",
+              bgcolor: theme.palette.mode === "dark" ? "black" : "white",
               alignItems: "center",
             }}
           >
@@ -302,9 +304,8 @@ function SignInSignUp() {
               justifyContent: "center",
               width: "100%",
               overflow: "visible",
-              border: 1,
               borderRadius: 5,
-              backgroundColor: "white",
+              bgcolor: theme.palette.mode === "dark" ? "black" : "white",
               alignItems: "center",
             }}
           >

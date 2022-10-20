@@ -116,8 +116,11 @@ function Navigation() {
           sx={{
             display: "flex",
             justifyContent: "center",
-            width: "100%",
-            bgcolor: "white",
+            width: "500px",
+            height: "100vh",
+
+            overflow: "hidden",
+            bgcolor: theme.palette.mode === "dark" ? "black" : "white",
           }}
         >
           <SignInSignUp />

@@ -17,6 +17,7 @@ function AuthProvider({ children }) {
     setUser(null);
     setRole(null);
     setId(null);
+    setGetDevList(null);
   };
 
   const signin = async (luser) => {
@@ -27,10 +28,14 @@ function AuthProvider({ children }) {
       setRole(data?.data?.role);
       setId(data?.data?.id);
       alert("Successfully Login");
-
-      navigate(`/home`);
+      if (data?.data?.role === "Client") {
+        navigate("/create-tix");
+      } else {
+        navigate("/home");
+      }
     } else {
       alert(data.message);
+      navigate(`/home`);
     }
   };
 

@@ -8,6 +8,7 @@ import axios from "axios";
 const CustomizedSelectForFormik = ({ children, form, field }) => {
   const { name, value } = field;
   const { setFieldValue } = form;
+  const { getTickets } = UseAuth();
 
   return (
     <Select
@@ -24,7 +25,7 @@ const CustomizedSelectForFormik = ({ children, form, field }) => {
 };
 
 function ShowDialog({ ticket }) {
-  const { editTicket, token } = UseAuth();
+  const { editTicket, token, getTickets } = UseAuth();
   const { role, getDevList } = UseAuth();
   const { closeTixDetails } = UseDialog();
 
@@ -36,7 +37,7 @@ function ShowDialog({ ticket }) {
     return axios.get("http://127.0.0.1:8000/api/ticket", config);
   };
 
-  const { refetch } = useQuery(["tickets"], fetchTicket, {
+  const { refetch } = useQuery(["tickets"], getTickets, {
     enabled: true,
     onSuccess: (res) => {
       console.log("Successfull", res);

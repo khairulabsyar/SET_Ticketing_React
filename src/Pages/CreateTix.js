@@ -6,7 +6,6 @@ import UseAuth from "../Hooks/UseAuth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { UseDialog } from "../Hooks";
 
 function CreateTix() {
   const { id, createTicket } = UseAuth();

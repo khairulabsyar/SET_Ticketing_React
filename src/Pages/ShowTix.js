@@ -24,7 +24,7 @@ const ShowTix = () => {
 
   const { data, isLoading, isError, error, refetch } = useQuery(
     ["tickets"],
-    fetchTicket,
+    getTickets,
     {
       enabled: true,
       onSuccess: (res) => {

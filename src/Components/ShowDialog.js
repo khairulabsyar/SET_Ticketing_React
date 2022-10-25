@@ -46,13 +46,17 @@ function ShowDialog({ ticket }) {
     },
   });
 
+  const handleFetch = () => {
+    refetch();
+  };
+
   return (
     <Formik
       initialValues={{}}
       onSubmit={(values) => {
         editTicket(values, ticket.id);
         closeTixDetails();
-        refetch();
+        handleFetch();
       }}
     >
       <Form
@@ -97,7 +101,6 @@ function ShowDialog({ ticket }) {
               </Box>
               <br />
               <Button type='submit' variant='contained'>
-                {" "}
                 Update
               </Button>
             </>

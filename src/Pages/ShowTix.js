@@ -16,7 +16,7 @@ const ShowTix = () => {
   };
 
   const fetchTicket = () => {
-    return axios.get("http://127.0.0.1:8000/api/ticket", config);
+    return axios.get("http://18.142.225.70/api/ticket", config);
   };
 
   const { data, isLoading, isError, error, refetch } = useQuery(

@@ -16,7 +16,10 @@ const ShowTix = () => {
   };
 
   const fetchTicket = () => {
-    return axios.get("http://18.142.225.70/api/ticket", config);
+    return axios.get(
+      "https://set-ticketing-hello.herokuapp.com/api/ticket",
+      config
+    );
   };
 
   const { data, isLoading, isError, error, refetch } = useQuery(

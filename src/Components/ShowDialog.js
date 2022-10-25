@@ -8,7 +8,6 @@ import axios from "axios";
 const CustomizedSelectForFormik = ({ children, form, field }) => {
   const { name, value } = field;
   const { setFieldValue } = form;
-  const { getTickets } = UseAuth();
 
   return (
     <Select
@@ -25,7 +24,7 @@ const CustomizedSelectForFormik = ({ children, form, field }) => {
 };
 
 function ShowDialog({ ticket }) {
-  const { editTicket, token, getTickets } = UseAuth();
+  const { editTicket, token } = UseAuth();
   const { role, getDevList } = UseAuth();
   const { closeTixDetails } = UseDialog();
 
@@ -34,10 +33,13 @@ function ShowDialog({ ticket }) {
   };
 
   const fetchTicket = () => {
-    return axios.get("http://127.0.0.1:8000/api/ticket", config);
+    return axios.get(
+      "https://set-ticketing-hello.herokuapp.com/api/ticket",
+      config
+    );
   };
 
-  const { refetch } = useQuery(["tickets"], getTickets, {
+  const { refetch } = useQuery(["tickets"], fetchTicket, {
     enabled: true,
     onSuccess: (res) => {
       console.log("Successfull", res);

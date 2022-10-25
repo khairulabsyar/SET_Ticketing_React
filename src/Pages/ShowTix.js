@@ -6,7 +6,7 @@ import { ShowDialog } from "../Components";
 import { UseAuth, UseDialog } from "../Hooks";
 
 const ShowTix = () => {
-  const { token, deleteTicket, role, getTickets } = UseAuth();
+  const { token, deleteTicket, role } = UseAuth();
   const theme = useTheme();
   const [ticket, setTicket] = useState([]);
   const { tixOpen, showTixDetails, closeTixDetails } = UseDialog();
@@ -24,7 +24,7 @@ const ShowTix = () => {
 
   const { data, isLoading, isError, error, refetch } = useQuery(
     ["tickets"],
-    getTickets,
+    fetchTicket,
     {
       enabled: true,
       onSuccess: (res) => {
